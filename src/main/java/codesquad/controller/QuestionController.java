@@ -1,6 +1,7 @@
 package codesquad.controller;
 
 import codesquad.domain.Question;
+import codesquad.dto.QuestionSaveRequestDto;
 import codesquad.service.QuestionService;
 import codesquad.utils.HttpSessionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,11 +27,11 @@ public class QuestionController {
     }
 
     @PostMapping("")
-    public String post(Question question, HttpSession httpSession) {
+    public String post(QuestionSaveRequestDto questionSaveRequestDto, HttpSession httpSession) {
         if (!HttpSessionUtils.isLogin(httpSession)) {
             return "users/login";
         }
-        questionService.save(question, httpSession);
+        questionService.save(questionSaveRequestDto, httpSession);
         return "redirect:/";
     }
 

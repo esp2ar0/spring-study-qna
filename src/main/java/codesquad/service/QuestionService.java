@@ -1,6 +1,7 @@
 package codesquad.service;
 
 import codesquad.domain.*;
+import codesquad.dto.QuestionSaveRequestDto;
 import codesquad.exception.QuestionNotFoundException;
 import codesquad.exception.WriterNotEqualException;
 import codesquad.utils.HttpSessionUtils;
@@ -8,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.servlet.http.HttpSession;
+import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -24,11 +26,12 @@ public class QuestionService {
         return questionRepository.findById(id).orElseThrow(() -> new QuestionNotFoundException(id));
     }
 
-    public Question save(Question question, HttpSession httpSession) {
+    @Transactional
+    public Question save(QuestionSaveRequestDto questionSaveRequestDto, HttpSession httpSession) {
         User user = HttpSessionUtils.getSessionedUser(httpSession);
 
-        question.setWriter(user);
-        return questionRepository.save(question);
+        questionSaveRequestDto.setWriter(user);
+        return questionRepository.save(questionSaveRequestDto.toEntity());
     }
 
     public void delete(Long id) {

@@ -1,8 +1,7 @@
 package codesquad.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -13,6 +12,7 @@ import java.util.List;
 @Getter
 @Setter
 @Entity
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Question {
 
     @Id
@@ -37,6 +37,13 @@ public class Question {
     private LocalDateTime createDate = LocalDateTime.now();
 
     private boolean deleted = false;
+
+    @Builder
+    public Question(User writer, String title, String contents) {
+        this.writer = writer;
+        this.title = title;
+        this.contents = contents;
+    }
 
     public String getFormattedCreateDate() {
         if (createDate == null) {
