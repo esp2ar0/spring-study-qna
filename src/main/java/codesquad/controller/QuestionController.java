@@ -1,6 +1,5 @@
 package codesquad.controller;
 
-import codesquad.domain.Question;
 import codesquad.dto.QuestionSaveRequestDto;
 import codesquad.service.QuestionService;
 import codesquad.utils.HttpSessionUtils;
@@ -55,7 +54,7 @@ public class QuestionController {
     }
 
     @PutMapping("/{id}")
-    public String update(@PathVariable Long id, Question modifiedQuestion, HttpSession httpSession) {
+    public String update(@PathVariable Long id, QuestionSaveRequestDto modifiedQuestion, HttpSession httpSession) {
         if (!HttpSessionUtils.isLogin(httpSession)) {
             return "users/login";
         }

@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.servlet.http.HttpSession;
+import javax.transaction.Transactional;
 
 @Service
 public class AnswerService {
@@ -23,6 +24,7 @@ public class AnswerService {
     @Autowired
     private QuestionRepository questionRepository;
 
+    @Transactional
     public Answer register(Long questionId, Answer answer, HttpSession httpSession) {
         if (!HttpSessionUtils.isLogin(httpSession)) {
             throw new UserNotLoggedInException();
@@ -34,6 +36,7 @@ public class AnswerService {
         return answerRepository.save(answer);
     }
 
+    @Transactional
     public void delete(Long questionId, Long id, HttpSession httpSession) {
         if (!HttpSessionUtils.isLogin(httpSession) || !this.match(id, httpSession)) {
             throw new PermissionRestrictException();

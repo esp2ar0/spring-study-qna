@@ -34,6 +34,7 @@ public class QuestionService {
         return questionRepository.save(questionSaveRequestDto.toEntity());
     }
 
+    @Transactional
     public void delete(Long id) {
         Question question = this.findById(id);
 
@@ -46,6 +47,7 @@ public class QuestionService {
         questionRepository.save(question);
     }
 
+    @Transactional
     public void deleteAnswer(Question question, Long id) {
         List<Answer> answers = answerRepository.findByQuestionId(id).orElse(new ArrayList<>());
         for (Answer answer : answers) {
@@ -55,9 +57,10 @@ public class QuestionService {
         }
     }
 
-    public void update(Long id, Question modifiedQuestion) {
+    @Transactional
+    public void update(Long id, QuestionSaveRequestDto modifiedQuestion) {
         Question question = this.findById(id);
-        question.update(modifiedQuestion);
+        question.update(modifiedQuestion.toEntity());
         questionRepository.save(question);
     }
 
